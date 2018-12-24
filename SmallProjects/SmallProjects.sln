@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CMDTicTacToe", "CMDTicTacTo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SudokuValidateNxN", "SudokuValidateNxN\SudokuValidateNxN.csproj", "{79E001B3-DAB2-43FA-8CD7-2CBDA9E9F19D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeGeneratorVisual", "MazeGeneratorVisual\MazeGeneratorVisual.csproj", "{D7E9B09F-18A3-442B-B6F1-839BB3D0971E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{79E001B3-DAB2-43FA-8CD7-2CBDA9E9F19D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79E001B3-DAB2-43FA-8CD7-2CBDA9E9F19D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{79E001B3-DAB2-43FA-8CD7-2CBDA9E9F19D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7E9B09F-18A3-442B-B6F1-839BB3D0971E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7E9B09F-18A3-442B-B6F1-839BB3D0971E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7E9B09F-18A3-442B-B6F1-839BB3D0971E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7E9B09F-18A3-442B-B6F1-839BB3D0971E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

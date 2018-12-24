@@ -5,3 +5,4 @@ in some case projects come from website CodeWars https://www.codewars.com/users/
 - Validate sudoku NxN size
 - TicTacToe made in console
 - The Observed Pin (Description in sourcecode)
+- Maze Generator (Recursive BackTracker) Visualization
