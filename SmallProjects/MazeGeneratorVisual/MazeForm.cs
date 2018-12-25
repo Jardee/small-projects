@@ -21,15 +21,24 @@ namespace MazeGeneratorVisual
         {
             InitializeComponent();
 
-            Global.Maze = new Bitmap(MazeVisual.Width, MazeVisual.Height);
-            Global.Canvas = Graphics.FromImage(Global.Maze);
-            Global.r = new Random();
-            MazeVisual.Image = Global.Maze;
+           
+            //MazeVisual.Image = Global.Maze;
+            textBox1.Text = Global.w.ToString();
+            textBox2.Text = Global.WallWeight.ToString();
+            textBox3.Text = Global.Delay.ToString();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
+            Global.Maze = new Bitmap(MazeVisual.Width, MazeVisual.Height);
+            Global.Canvas = Graphics.FromImage(Global.Maze);
+            Global.r = new Random();
+            if (int.TryParse(textBox1.Text, out int W)) Global.w = W;
+            if (int.TryParse(textBox2.Text, out int WW)) Global.WallWeight = WW;
+            if (int.TryParse(textBox3.Text, out int D)) Global.Delay = D;
+            button1.Enabled = false;
             Thread t = new Thread(GenerateMaze);
+            Global.MazeThread = t;
             t.IsBackground = true;
             t.Start();
             
@@ -92,15 +101,16 @@ namespace MazeGeneratorVisual
                     current = tmp;
                 }
 
+                //This is slowing everything
                 MazeVisual.Image = Global.Maze;
 
-                Thread.Sleep(1);
+                Thread.Sleep(Global.Delay);
                 //this.Refresh();
                //this.Update();
             }
 
         EXIT:
-            ;
+            Global.Ready = true;
         }
 
         private void RemoveWalls(Cell current, Cell next)
@@ -131,7 +141,54 @@ namespace MazeGeneratorVisual
                 next.Top = false;
             }
         }
+
+        private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
+        {
+            Point loc = new Point(0, 0);
+            e.Graphics.DrawImage(Global.Maze, loc);
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if(Global.Ready)
+            {
+                DialogResult result = printDialog1.ShowDialog();
+
+                // If the result is OK then print the document.
+                if (result == DialogResult.OK)
+                {
+                    printDocument1.Print();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Wait...");
+            }
+           
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Global.MazeThread.Abort();
+            Global.Ready = true;
+            if (Global.Ready)
+            {
+                MazeVisual.Image = new Bitmap(100, 100);
+                Global.Maze = new Bitmap(MazeVisual.Width, MazeVisual.Height);
+                Global.Canvas = Graphics.FromImage(Global.Maze);
+                Global.r = new Random();
+                Global.cols = (int)Math.Floor((double)(MazeVisual.Width / Global.w));
+                Global.rows = (int)Math.Floor((double)(MazeVisual.Height / Global.w));
+                Global.ListOfCells = new List<Cell>();
+                //MazeVisual.Image = Global.Maze;
+                button1.Enabled = true;
+                Global.Ready = false;
+            }
+        }
     }
+
+
 
     public class Cell
     {
@@ -163,10 +220,10 @@ namespace MazeGeneratorVisual
             if (Visited) Canvas.FillRectangle(Brushes.Gray, x, y, w, w);
             if (Current) Canvas.FillRectangle(Brushes.Red, x, y, w, w);
 
-            if (Top) Canvas.DrawLine(new Pen(Brushes.Black, 1), x, y, x + w, y);
-            if (Right) Canvas.DrawLine(new Pen(Brushes.Black, 1), x + w, y, x + w, y + w);
-            if (Down) Canvas.DrawLine(new Pen(Brushes.Black, 1), x + w, y + w, x, y + w);
-            if (Left) Canvas.DrawLine(new Pen(Brushes.Black, 1), x, y + w, x, y);
+            if (Top) Canvas.DrawLine(new Pen(Brushes.Black, Global.WallWeight), x, y, x + w, y);
+            if (Right) Canvas.DrawLine(new Pen(Brushes.Black, Global.WallWeight), x + w, y, x + w, y + w);
+            if (Down) Canvas.DrawLine(new Pen(Brushes.Black, Global.WallWeight), x + w, y + w, x, y + w);
+            if (Left) Canvas.DrawLine(new Pen(Brushes.Black, Global.WallWeight), x, y + w, x, y);
 
             
         }
@@ -209,10 +266,14 @@ namespace MazeGeneratorVisual
     {
         public static List<Cell> ListOfCells = new List<Cell>();
         public static int cols, rows;
-        public static int w = 20;
+        public static int w = 40;
+        public static bool Ready = false;
 
+        public static int Delay = 5;
+        public static int WallWeight = 2;
         public static Bitmap Maze;
         public static Graphics Canvas;
         public static Random r;
+        public static Thread MazeThread;
     }
 }
