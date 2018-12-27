@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SudokuValidateNxN", "Sudoku
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeGeneratorVisual", "MazeGeneratorVisual\MazeGeneratorVisual.csproj", "{D7E9B09F-18A3-442B-B6F1-839BB3D0971E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MouseDrawing", "MouseDrawing\MouseDrawing\MouseDrawing.csproj", "{ED5CBAB0-EC70-4752-AFDB-AAA821D6AE6C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{D7E9B09F-18A3-442B-B6F1-839BB3D0971E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7E9B09F-18A3-442B-B6F1-839BB3D0971E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7E9B09F-18A3-442B-B6F1-839BB3D0971E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED5CBAB0-EC70-4752-AFDB-AAA821D6AE6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED5CBAB0-EC70-4752-AFDB-AAA821D6AE6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED5CBAB0-EC70-4752-AFDB-AAA821D6AE6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED5CBAB0-EC70-4752-AFDB-AAA821D6AE6C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
