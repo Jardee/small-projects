@@ -26,7 +26,7 @@ namespace MazeGeneratorVisual
             textBox1.Text = Global.w.ToString();
             textBox2.Text = Global.WallWeight.ToString();
             textBox3.Text = Global.Delay.ToString();
-            MazeVisual.Image = Global.Maze;
+           
 
         }
 
@@ -104,7 +104,8 @@ namespace MazeGeneratorVisual
                 }
 
                 //This is slowing everything
-                
+                MazeVisual.Image = Global.Maze;
+
                 Thread.Sleep(Global.Delay);
                 //this.Refresh();
                //this.Update();

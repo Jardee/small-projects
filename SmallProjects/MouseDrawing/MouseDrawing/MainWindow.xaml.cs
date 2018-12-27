@@ -27,8 +27,8 @@ namespace MouseDrawing
         public MainWindow()
         {
             InitializeComponent();
-            delaytxt.Text = "50";
-            pixskiptxt.Text = "4";
+            delaytxt.Text = "20";
+            pixskiptxt.Text = "2";
         }
 
 
@@ -54,9 +54,9 @@ namespace MouseDrawing
                 if (imagebox.Source != null)
                 {
                     //SetCursorPos(0, 0);
-                    int delay = 50;
+                    int delay = 20;
                     if (int.TryParse(delaytxt.Text, out int ddx)) delay = ddx;
-                    int pixelskip = 4;
+                    int pixelskip = 2;
                     if (int.TryParse(pixskiptxt.Text, out int ps)) pixelskip = ps;
                     grap = imagebox.Source;
                     sd = (BitmapSource)grap;
@@ -118,6 +118,8 @@ namespace MouseDrawing
             var rect = new Int32Rect(x, y, 1, 1);
 
             bitmap.CopyPixels(rect, bytes, bytesPerPixel, 0);
+
+
 
                 if (bytes[2] > 200 && bytes[1] > 200 && bytes[0] > 200)
                 {
