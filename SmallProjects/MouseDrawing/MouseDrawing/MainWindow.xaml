@@ -5,14 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MouseDrawing"
         mc:Ignorable="d"
-        Title="MainWindow" Height="624.25" Width="231.5" KeyDown="Window_KeyDown" Deactivated="Window_Deactivated">
-    <Grid Margin="0,0,495,0">
-        <Label Content="Label" Name="lbll" HorizontalAlignment="Left" Margin="10,3,-110,0" VerticalAlignment="Top" Width="100" MouseDoubleClick="Lbll_MouseDoubleClick"/>
-        <TextBox Name="delaytxt" HorizontalAlignment="Left" Height="23" Margin="76,35,-124,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="48" RenderTransformOrigin="-0.052,-0.681"/>
-        <Label Content="Delay(ms):" x:Name="lbll_Copy" HorizontalAlignment="Left" Margin="1,31,-71,0" VerticalAlignment="Top" Width="70"/>
-        <TextBox Name="pixskiptxt" HorizontalAlignment="Left" Height="23" Margin="76,66,-124,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="48" RenderTransformOrigin="-0.052,-0.681"/>
-        <Label Content="Pixel skip:" x:Name="lbll_Copy1" HorizontalAlignment="Left" Margin="1,62,-71,0" VerticalAlignment="Top" Width="70"/>
-        <WrapPanel Name="childs" HorizontalAlignment="Left" Height="477" Margin="2,93,-218,0" VerticalAlignment="Top" Width="216"/>
+        Title="MainWindow" Height="624.25" Width="231.5" KeyDown="Window_KeyDown" Deactivated="Window_Deactivated" Closed="Window_Closed" SizeChanged="Window_SizeChanged">
+    <Grid Name="xddd" >
+        <WrapPanel Name="childs" Background="Azure" Margin="1,47,0,-3" />
+        <Button Content="Settings" HorizontalAlignment="Right" Margin="1,10,0,0" VerticalAlignment="Top" Width="223" Height="32" Click="Button_Click" FontWeight="Bold">
+
+        </Button>
+
 
     </Grid>
 </Window>

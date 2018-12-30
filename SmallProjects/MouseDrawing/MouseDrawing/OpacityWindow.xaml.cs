@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,19 +21,23 @@ namespace MouseDrawing
     /// <summary>
     /// Logika interakcji dla klasy OpacityWindow.xaml
     /// </summary>
+    
     public partial class OpacityWindow : Window
     {
         BitmapSource glbl;
         int pixelskip;
         int delay;
+        bool focused = true;
+        MainWindow refer;
 
-        public OpacityWindow(BitmapSource bd, int dl, int skp)
+        public OpacityWindow(BitmapSource bd, int dl, int skp, MainWindow tmp)
         {
             InitializeComponent();
             glbl = bd;
             pixelskip = skp;
             delay = dl;
-            Timer tmt = new Timer();
+            refer = tmp;
+            System.Windows.Forms.Timer tmt = new System.Windows.Forms.Timer();
             tmt.Interval = 50;
             tmt.Tick += Tmt_Tick;
             tmt.Start();
@@ -44,6 +49,8 @@ namespace MouseDrawing
             GetCursorPos(out dd);
             this.Top = dd.Y;
             this.Left = dd.X;
+
+            //if (!this.IsFocused) this.Close();
         }
 
         [System.Runtime.InteropServices.DllImport("user32")]
@@ -105,25 +112,33 @@ namespace MouseDrawing
 
         public static bool GetPixelColor(BitmapSource bitmap, int x, int y)
         {
-            Color color;
+            //nie działa z przezroczystoscia TO-DO
+
             var bytesPerPixel = (bitmap.Format.BitsPerPixel + 7) / 8;
             var bytes = new byte[bytesPerPixel];
             var rect = new Int32Rect(x, y, 1, 1);
 
             bitmap.CopyPixels(rect, bytes, bytesPerPixel, 0);
 
-            if (bytes[2] > 200 && bytes[1] > 200 && bytes[0] > 200) return false;
-            else return true;
-
+            return !(bytes[2] > 200 && bytes[1] > 200 && bytes[0] > 200);
         }
 
         private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            this.Hide();
-
             if (e.Key == Key.D)
             {
-
+               
+                Thread t = new Thread(new ThreadStart(Draw));
+                t.Start();
+                refer.focused = true;
+                
+                this.Close();
+            }
+        }
+        private void Draw()
+        {
+            this.Dispatcher.Invoke(() =>
+            {
                 BitmapSource sd = glbl;
                 MousePoint dd;
                 GetCursorPos(out dd);
@@ -137,7 +152,7 @@ namespace MouseDrawing
                         first = GetPixelColor(sd, x, y);
 
                         if (first && !previous)
-                        { 
+                        {
                             SetCursorPos(dd.X + x, dd.Y + y);
                             Grab();
 
@@ -154,15 +169,18 @@ namespace MouseDrawing
                     }
 
                 }
-
-                this.Close();
-            }
+            });
+            
         }
 
         private void Window_Deactivated(object sender, EventArgs e)
         {
-            Window window = (Window)sender;
-            window.Topmost = true;
+            if (focused)
+            {
+                Window window = (Window)sender;
+                window.Topmost = true;
+            }
+            
         }
     }
 }

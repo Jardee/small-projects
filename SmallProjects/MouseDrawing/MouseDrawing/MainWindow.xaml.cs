@@ -19,6 +19,7 @@ using System.Windows.Shapes;
 using Clipboard = System.Windows.Clipboard;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using MessageBox = System.Windows.Forms.MessageBox;
+using Timer = System.Windows.Forms.Timer;
 
 namespace MouseDrawing
 {
@@ -29,17 +30,31 @@ namespace MouseDrawing
     {
         BitmapSource sd;
         ImageSource grap;
+        OpacityWindow handle;
+        public bool focused = true;
         public MainWindow()
         {
             //MessageBox.Show(Screen.PrimaryScreen.Bounds.Width.ToString() + this.Width.ToString());
             
             InitializeComponent();
-            delaytxt.Text = "20";
-            pixskiptxt.Text = "2";
             this.Left = Screen.PrimaryScreen.Bounds.Width - this.Width;
             this.Top = 0;
             this.Height = Screen.PrimaryScreen.Bounds.Height - 40;
             getimages(@"C:\imgs");
+            Timer tm1 = new Timer();
+            tm1.Interval = 50;
+            tm1.Tick += Tm1_Tick;
+            tm1.Start();
+        }
+
+        private void Tm1_Tick(object sender, EventArgs e)
+        {
+            if (focused)
+            {
+                //Window window = (Window)sender;
+                this.Topmost = true;
+            }
+
         }
 
         private void getimages(string folderpath)
@@ -84,7 +99,7 @@ namespace MouseDrawing
             img.Source = src;
 
             img.Stretch = Stretch.Uniform;
-            img.Height = 25;
+            img.Height = 50;
 
             img.MouseDown += Img_MouseDown;
             childs.Children.Add(img);
@@ -97,14 +112,14 @@ namespace MouseDrawing
             grap = ctrl.Source;
             sd = (BitmapSource)grap;
 
-            int delay = 20;
-            if (int.TryParse(delaytxt.Text, out int ddx)) delay = ddx;
-            int pixelskip = 2;
-            if (int.TryParse(pixskiptxt.Text, out int ps)) pixelskip = ps;
+            int delay = Properties.Settings.Default.Delay;
+            int pixelskip = Properties.Settings.Default.pixelSkip;
 
-            OpacityWindow preview = new OpacityWindow(sd, delay, pixelskip);
+            OpacityWindow preview = new OpacityWindow(sd, delay, pixelskip, this);
+            handle = preview;
             preview.Width = sd.PixelWidth;
             preview.Height = sd.PixelHeight;
+            focused = false;
 
             ImageBrush myBrush = new ImageBrush();
             myBrush.ImageSource = ctrl.Source;
@@ -139,14 +154,34 @@ namespace MouseDrawing
 
         private void Lbll_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            delaytxt.IsEnabled = true;
-            pixskiptxt.IsEnabled = true;
+
         }
 
         private void Window_Deactivated(object sender, EventArgs e)
         {
-            //Window window = (Window)sender;
-           // window.Topmost = true;
+        
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            if (handle != null) handle.Close();
+        }
+
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            childs.Width = this.Width;
+            xddd.Width = this.Width;
+        }
+
+        private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+          
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Settings tmp = new Settings();
+            tmp.Show();
         }
     }
 }
