@@ -58,5 +58,17 @@ namespace MouseDrawing.Properties {
                 this["pixelSkip"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool Experimental {
+            get {
+                return ((bool)(this["Experimental"]));
+            }
+            set {
+                this["Experimental"] = value;
+            }
+        }
     }
 }

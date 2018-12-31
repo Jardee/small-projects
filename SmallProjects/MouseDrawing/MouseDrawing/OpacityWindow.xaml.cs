@@ -25,10 +25,12 @@ namespace MouseDrawing
     public partial class OpacityWindow : Window
     {
         BitmapSource glbl;
+        BitmapSource Target;
         int pixelskip;
         int delay;
         bool focused = true;
         MainWindow refer;
+        double scale = 1.0;
 
         public OpacityWindow(BitmapSource bd, int dl, int skp, MainWindow tmp)
         {
@@ -41,18 +43,27 @@ namespace MouseDrawing
             tmt.Interval = 50;
             tmt.Tick += Tmt_Tick;
             tmt.Start();
+            Target = glbl;
         }
 
         private void Tmt_Tick(object sender, EventArgs e)
         {
             MousePoint dd;
             GetCursorPos(out dd);
-            this.Top = dd.Y;
-            this.Left = dd.X;
+            this.Top = dd.Y - 20;
+            this.Left = dd.X - 20;
 
             //if (!this.IsFocused) this.Close();
         }
 
+        #region Keyboard
+        [DllImport("User32.dll")]
+        private static extern short GetAsyncKeyState(int vKey);
+
+        private const int VK_SNAPSHOT = 0x58; //This is the x key.
+        #endregion
+
+        #region Mouse
         [System.Runtime.InteropServices.DllImport("user32")]
         public static extern int SetCursorPos(int x, int y);
 
@@ -62,6 +73,7 @@ namespace MouseDrawing
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
         public static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint cButtons, uint dwExtraInfo);
+
         //Mouse actions
         private const int MOUSEEVENTF_LEFTDOWN = 0x02;
         private const int MOUSEEVENTF_LEFTUP = 0x04;
@@ -110,6 +122,8 @@ namespace MouseDrawing
             }
         }
 
+        #endregion
+
         public static bool GetPixelColor(BitmapSource bitmap, int x, int y)
         {
             //nie działa z przezroczystoscia TO-DO
@@ -131,7 +145,12 @@ namespace MouseDrawing
                 Thread t = new Thread(new ThreadStart(Draw));
                 t.Start();
                 refer.focused = true;
-                
+                refer.reff = t;
+                this.Close();
+            }
+            if (e.Key == Key.Escape)
+            {
+               
                 this.Close();
             }
         }
@@ -139,9 +158,9 @@ namespace MouseDrawing
         {
             this.Dispatcher.Invoke(() =>
             {
-                BitmapSource sd = glbl;
-                MousePoint dd;
-                GetCursorPos(out dd);
+                BitmapSource sd = Target;
+                int xx = (int)Left;
+                int yy = (int)Top;
                 bool first = true;
                 bool previous = false;
 
@@ -149,11 +168,21 @@ namespace MouseDrawing
                 {
                     for (int y = 0; y < sd.PixelHeight; y += pixelskip)
                     {
+                        short keyState = GetAsyncKeyState(VK_SNAPSHOT);
+
+                        bool prntScrnIsPressed = ((keyState >> 15) & 0x0001) == 0x0001;
+
+                        if (prntScrnIsPressed)
+                        {
+                            Release();
+                            return;
+                        }
+
                         first = GetPixelColor(sd, x, y);
 
                         if (first && !previous)
                         {
-                            SetCursorPos(dd.X + x, dd.Y + y);
+                            SetCursorPos(xx + x, yy + y);
                             Grab();
 
                         }
@@ -161,7 +190,7 @@ namespace MouseDrawing
 
                         if (first && previous)
                         {
-                            SetCursorPos(dd.X + x, dd.Y + y);
+                            SetCursorPos(xx + x, yy + y);
                             System.Threading.Thread.Sleep(delay);
                         }
 
@@ -179,6 +208,26 @@ namespace MouseDrawing
             {
                 Window window = (Window)sender;
                 window.Topmost = true;
+            }
+            
+        }
+
+        private void Window_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (e.RightButton == MouseButtonState.Pressed)
+            {
+                scale += e.Delta / 1000.0;
+                if (scale < 0.1) scale = 0.1;
+                TransformedBitmap targetBitmap = new TransformedBitmap(glbl, new ScaleTransform(scale, scale));
+
+                this.Height = targetBitmap.PixelHeight;
+                this.Width = targetBitmap.PixelWidth;
+
+                Target = targetBitmap;
+
+                ImageBrush myBrush = new ImageBrush();
+                myBrush.ImageSource = targetBitmap;
+                this.Background = myBrush;
             }
             
         }

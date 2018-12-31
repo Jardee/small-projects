@@ -2,24 +2,19 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Clipboard = System.Windows.Clipboard;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using MessageBox = System.Windows.Forms.MessageBox;
 using Timer = System.Windows.Forms.Timer;
+using Path = System.IO.Path;
 
 namespace MouseDrawing
 {
@@ -28,10 +23,15 @@ namespace MouseDrawing
     /// </summary>
     public partial class MainWindow : Window
     {
+        
+
         BitmapSource sd;
         ImageSource grap;
         OpacityWindow handle;
         public bool focused = true;
+        public Thread reff;
+        Dictionary<BitmapImage, string> AllImages = new Dictionary<BitmapImage, string>();
+        Dictionary<BitmapImage, string> ActualToView = new Dictionary<BitmapImage, string>();
         public MainWindow()
         {
             //MessageBox.Show(Screen.PrimaryScreen.Bounds.Width.ToString() + this.Width.ToString());
@@ -40,7 +40,9 @@ namespace MouseDrawing
             this.Left = Screen.PrimaryScreen.Bounds.Width - this.Width;
             this.Top = 0;
             this.Height = Screen.PrimaryScreen.Bounds.Height - 40;
-            getimages(@"C:\imgs");
+
+            getimages("C:/imgs");
+
             Timer tm1 = new Timer();
             tm1.Interval = 50;
             tm1.Tick += Tm1_Tick;
@@ -50,12 +52,9 @@ namespace MouseDrawing
         private void Tm1_Tick(object sender, EventArgs e)
         {
             if (focused)
-            {
-                //Window window = (Window)sender;
                 this.Topmost = true;
-            }
-
         }
+
 
         private void getimages(string folderpath)
         {
@@ -69,10 +68,10 @@ namespace MouseDrawing
                 {
                     foreach (var item in dir.GetFiles())
                     {
-                        if (".jpg|.jpeg|.gif|.png".Contains(item.Extension.ToLower()))
+                        if (".jpg|.jpeg".Contains(item.Extension.ToLower()))
                         {
-                            addimage(item.FullName);
-                            //MessageBox.Show("No witam");
+                            AllImages.Add(addimage(item.FullName), Path.GetFileNameWithoutExtension(item.FullName));
+                            //MessageBox.Show(Path.GetFileNameWithoutExtension(item.FullName));
                         }
                     }
                 }
@@ -81,29 +80,42 @@ namespace MouseDrawing
             {
 
             }
-
+            ActualToView = new Dictionary<BitmapImage, string>(AllImages);
+            updateImages(ActualToView);
         }
 
-        private void addimage(string pth)
+        private BitmapImage addimage(string pth)
         {
-            Image img = new Image();
+          
 
             BitmapImage src = new BitmapImage();
 
             src.BeginInit();
 
             src.UriSource = new Uri(pth, UriKind.Absolute);
-
+            
             src.EndInit();
 
-            img.Source = src;
+            return src;
+        }
 
-            img.Stretch = Stretch.Uniform;
-            img.Height = 50;
+        private void updateImages(Dictionary<BitmapImage, string> x)
+        {
+            childs.Children.Clear();
 
-            img.MouseDown += Img_MouseDown;
-            childs.Children.Add(img);
+            foreach (var item in x)
+            {
+                Image img = new Image();
 
+                img.Source = item.Key;
+
+                img.Stretch = Stretch.Uniform;
+                img.Height = Properties.Settings.Default.PictureSize;
+
+                img.MouseDown += Img_MouseDown;
+                childs.Children.Add(img);
+            }
+            
         }
 
         private void Img_MouseDown(object sender, MouseButtonEventArgs e)
@@ -135,7 +147,7 @@ namespace MouseDrawing
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            
+           
         }
 
 
@@ -182,6 +194,21 @@ namespace MouseDrawing
         {
             Settings tmp = new Settings();
             tmp.Show();
+        }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            //update view with only with tags
+            //jeżeli puste to prawdopodobnie bedzie ze wczyta wszystko chciaz słabo jak bedzie duzo elementów
+            //TO-DO && TagTXT.Text.Length > 3
+            if (!String.IsNullOrEmpty(TagTXT.Text) )
+            {
+                updateImages(AllImages.Where(x => x.Value.Contains(TagTXT.Text)).ToDictionary(t => t.Key, t => t.Value));
+            }
+            else
+            {
+                updateImages(AllImages);
+            }
         }
     }
 }

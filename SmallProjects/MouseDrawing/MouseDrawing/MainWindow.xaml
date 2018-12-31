@@ -7,10 +7,12 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="624.25" Width="231.5" KeyDown="Window_KeyDown" Deactivated="Window_Deactivated" Closed="Window_Closed" SizeChanged="Window_SizeChanged">
     <Grid Name="xddd" >
-        <WrapPanel Name="childs" Background="Azure" Margin="1,47,0,-3" />
+        <WrapPanel Name="childs" Background="Azure" Margin="1,78,0,-3" />
         <Button Content="Settings" HorizontalAlignment="Right" Margin="1,10,0,0" VerticalAlignment="Top" Width="223" Height="32" Click="Button_Click" FontWeight="Bold">
 
         </Button>
+        <Label Content="Tag:" HorizontalAlignment="Left" Margin="10,47,0,0" VerticalAlignment="Top"/>
+        <TextBox Name="TagTXT" HorizontalAlignment="Left" Height="23" Margin="46,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="168" RenderTransformOrigin="0.483,0.391" TextChanged="TextBox_TextChanged"/>
 
 
     </Grid>
