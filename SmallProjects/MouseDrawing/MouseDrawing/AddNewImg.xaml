@@ -1,0 +1,17 @@
+﻿<Window x:Class="MouseDrawing.AddNewImg"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MouseDrawing"
+        mc:Ignorable="d"
+        Title="AddNewImg" Height="450" Width="388" KeyUp="Window_KeyUp">
+    <Grid Margin="0,0,2,0">
+        <Button Content="Add" HorizontalAlignment="Left" Margin="56,65,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+        <Button Content="Add From File" HorizontalAlignment="Left" Margin="254,65,0,0" VerticalAlignment="Top" Width="96"/>
+        <TextBox Name="tags" HorizontalAlignment="Left" Height="23" Margin="56,94,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="312"/>
+        <Label Content="Tags:" HorizontalAlignment="Left" Margin="10,90,0,0" VerticalAlignment="Top"/>
+        <Image Name="img" HorizontalAlignment="Left" Height="287" Margin="10,122,0,0" VerticalAlignment="Top" Width="358"/>
+
+    </Grid>
+</Window>

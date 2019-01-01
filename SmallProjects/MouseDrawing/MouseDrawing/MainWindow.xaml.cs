@@ -10,7 +10,6 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Clipboard = System.Windows.Clipboard;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using MessageBox = System.Windows.Forms.MessageBox;
 using Timer = System.Windows.Forms.Timer;
@@ -32,6 +31,7 @@ namespace MouseDrawing
         public Thread reff;
         Dictionary<BitmapImage, string> AllImages = new Dictionary<BitmapImage, string>();
         Dictionary<BitmapImage, string> ActualToView = new Dictionary<BitmapImage, string>();
+
         public MainWindow()
         {
             //MessageBox.Show(Screen.PrimaryScreen.Bounds.Width.ToString() + this.Width.ToString());
@@ -41,7 +41,17 @@ namespace MouseDrawing
             this.Top = 0;
             this.Height = Screen.PrimaryScreen.Bounds.Height - 40;
 
-            getimages("C:/imgs");
+            //getimages("C:/imgs");
+
+            foreach (var item in new DB().GetImgs())
+            {
+                AllImages.Add(item.img, item.tags);
+                //MessageBox.Show(item.tags);
+            }
+
+            ActualToView = new Dictionary<BitmapImage, string>(AllImages);
+            updateImages(ActualToView);
+
 
             Timer tm1 = new Timer();
             tm1.Interval = 50;
@@ -51,8 +61,8 @@ namespace MouseDrawing
 
         private void Tm1_Tick(object sender, EventArgs e)
         {
-            if (focused)
-                this.Topmost = true;
+            if (focused) ;
+              //  this.Topmost = true;
         }
 
 

@@ -15,6 +15,7 @@
         <CheckBox Name="chck" Content="Experimental Mode" HorizontalAlignment="Left" Margin="10,91,0,0" VerticalAlignment="Top"/>
         <Label Content="Icon Size:" x:Name="lbll_Copy2" HorizontalAlignment="Left" Margin="0,62,0,0" VerticalAlignment="Top" Width="70"/>
         <TextBox x:Name="Icon_Sizetxt" HorizontalAlignment="Left" Height="23" Margin="76,65,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="48" RenderTransformOrigin="-0.052,-0.681"/>
+        <Button Content="Add new Img" HorizontalAlignment="Left" Margin="10,197,0,0" VerticalAlignment="Top" Width="89" Click="Button_Click_1" />
 
     </Grid>
 </Window>

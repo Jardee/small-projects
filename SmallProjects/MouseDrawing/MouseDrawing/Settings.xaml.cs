@@ -1,16 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.Windows;
 
 namespace MouseDrawing
 {
@@ -32,6 +20,7 @@ namespace MouseDrawing
             chck.IsChecked = Properties.Settings.Default.Experimental;
         }
 
+        //save
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (int.TryParse(delaytxt.Text, out int result)) Properties.Settings.Default.Delay = result;
@@ -43,6 +32,13 @@ namespace MouseDrawing
             Properties.Settings.Default.Experimental = chck.IsChecked ?? false;
 
             Properties.Settings.Default.Save();
+        }
+
+        //add new img
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            AddNewImg tmp = new AddNewImg();
+            tmp.Show();
         }
     }
 }
