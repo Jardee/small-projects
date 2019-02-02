@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeGeneratorVisual", "Maze
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MouseDrawing", "MouseDrawing\MouseDrawing\MouseDrawing.csproj", "{ED5CBAB0-EC70-4752-AFDB-AAA821D6AE6C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MouseDrawingV2", "MouseDrawingV2\MouseDrawingV2.csproj", "{04321550-4851-429B-83EA-5ACC0ABE40B8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{ED5CBAB0-EC70-4752-AFDB-AAA821D6AE6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED5CBAB0-EC70-4752-AFDB-AAA821D6AE6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED5CBAB0-EC70-4752-AFDB-AAA821D6AE6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04321550-4851-429B-83EA-5ACC0ABE40B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04321550-4851-429B-83EA-5ACC0ABE40B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04321550-4851-429B-83EA-5ACC0ABE40B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04321550-4851-429B-83EA-5ACC0ABE40B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

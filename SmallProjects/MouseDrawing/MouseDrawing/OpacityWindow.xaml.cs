@@ -203,24 +203,6 @@ namespace MouseDrawing
             
         }
 
-        private void Window_MouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            if (e.RightButton == MouseButtonState.Pressed)
-            {
-                scale += e.Delta / 1000.0;
-                if (scale < 0.1) scale = 0.1;
-                TransformedBitmap targetBitmap = new TransformedBitmap(glbl, new ScaleTransform(scale, scale));
 
-                this.Height = targetBitmap.PixelHeight;
-                this.Width = targetBitmap.PixelWidth;
-
-                Target = targetBitmap;
-
-                ImageBrush myBrush = new ImageBrush();
-                myBrush.ImageSource = targetBitmap;
-                this.Background = myBrush;
-            }
-            
-        }
     }
 }
