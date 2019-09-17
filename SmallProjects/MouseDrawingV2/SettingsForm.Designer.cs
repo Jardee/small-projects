@@ -66,7 +66,6 @@
             // experimentalCheckBox
             // 
             this.experimentalCheckBox.AutoSize = true;
-            this.experimentalCheckBox.Enabled = false;
             this.experimentalCheckBox.Location = new System.Drawing.Point(15, 58);
             this.experimentalCheckBox.Name = "experimentalCheckBox";
             this.experimentalCheckBox.Size = new System.Drawing.Size(125, 17);
